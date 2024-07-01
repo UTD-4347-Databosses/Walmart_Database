@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/pull-request-labeler.json": "file:///Users/bennett/Documents/CS_4347/Projects/Walmart_Database/.github/labeler.yml"
+    }
+}
