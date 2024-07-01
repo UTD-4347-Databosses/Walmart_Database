@@ -19,8 +19,7 @@ Describe the backend feature that is being requested...
   - [ ] Set Project Status (Backlog)
   - [ ] Set Project Priority (P0,P1, P2)
   - [ ] Set Project Size (XS, S, M, L, XL)
-  - [ ] Set Project Estimate (1d, 1h, 1m, etc...)
-  - [ ] Set Project Iteration (Phase 3, Phase 4)
+  - [ ] Set Project Estimate (Number of Hours)
 - [ ] Verify Issue Milestone (Phase 3, Phase 4)
 - [ ] Verify Issue Branch (dev/backend)
 
