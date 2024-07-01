@@ -1,7 +1,7 @@
 ---
 name: Backend Feature
 about: Adding a new Backend Feature
-title: "[BACKEND] *issue_title*"
+title: "[BACKEND]: "
 labels: Backend, Backlog
 assignees: ''
 
@@ -15,9 +15,14 @@ Describe the backend feature that is being requested...
 
 **Next Steps:**
 - [ ] Verify Issue Labels
-- [ ] Verify Issue Project
-- [ ] Verify Issue Milestone
-- [ ] Verify Issue Branch
+- [ ] Verify Issue Project (Databosses Group Project)
+  - [ ] Set Project Status (Backlog)
+  - [ ] Set Project Priority (P0,P1, P2)
+  - [ ] Set Project Size (XS, S, M, L, XL)
+  - [ ] Set Project Estimate (1d, 1h, 1m, etc...)
+  - [ ] Set Project Iteration (Phase 3, Phase 4)
+- [ ] Verify Issue Milestone (Phase 3, Phase 4)
+- [ ] Verify Issue Branch (dev/backend)
 
 **Assigned To:**
 @UTD-4347-Databosses/backend
