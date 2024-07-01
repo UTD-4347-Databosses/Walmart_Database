@@ -6,7 +6,7 @@ As Walmart continues to experience significant growth, expanding in locations, w
 ## Solution
 
 ### ERM Diagram
-[./images/ERM.png]
+![](./images/ERM.png)
 
 ### Relational Diagram
-[./images/RD.png]
+![](./images/RD.png)
