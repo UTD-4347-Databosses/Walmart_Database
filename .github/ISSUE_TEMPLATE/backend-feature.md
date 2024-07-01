@@ -14,7 +14,7 @@ Describe the backend feature that is being requested...
 - [ ] Any issues that need to be completed before this one can be started (in the format `#1`)
 
 **Next Steps:**
-- [ ] Verify Issue Labels
+- [ ] Verify Issue Labels (Backend, Backlog)
 - [ ] Verify Issue Project (Databosses Group Project)
   - [ ] Set Project Status (Backlog)
   - [ ] Set Project Priority (P0,P1, P2)
