@@ -10,10 +10,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema walmartdb
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema walmartdb
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `walmartdb` DEFAULT CHARACTER SET utf8 ;
 USE `walmartdb` ;
 
