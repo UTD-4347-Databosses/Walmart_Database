@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema walmartdb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema walmartdb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `walmartdb` DEFAULT CHARACTER SET utf8 ;
+USE `walmartdb` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Employee`
+-- Table `walmartdb`.`Employee`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Employee` (
+CREATE TABLE IF NOT EXISTS `walmartdb`.`Employee` (
   `Employee_id` INT NOT NULL,
   `Fname` VARCHAR(45) NULL,
   `Lname` VARCHAR(45) NULL,
@@ -34,9 +34,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Transaction`
+-- Table `walmartdb`.`Transaction`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Transaction` (
+CREATE TABLE IF NOT EXISTS `walmartdb`.`Transaction` (
   `Transaction_id` INT NOT NULL,
   `Customer_id` INT NOT NULL,
   `Employee_id` INT NOT NULL,
@@ -52,9 +52,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Customer`
+-- Table `walmartdb`.`Customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Customer` (
+CREATE TABLE IF NOT EXISTS `walmartdb`.`Customer` (
   `Customer_id` INT NOT NULL,
   `Fname` VARCHAR(45) NULL,
   `Lname` VARCHAR(45) NULL,
@@ -64,9 +64,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Vendor`
+-- Table `walmartdb`.`Vendor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Vendor` (
+CREATE TABLE IF NOT EXISTS `walmartdb`.`Vendor` (
   `Vendor` INT NOT NULL,
   PRIMARY KEY (`Vendor`))
 ENGINE = InnoDB;
