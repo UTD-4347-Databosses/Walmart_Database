@@ -29,33 +29,41 @@ Our project is a website that is built using the [Flask Framework](https://flask
 1. Install necessary languages/tools:
     - Python 3.8 or higher
     - Git
+    
 2. Clone the repository:
     ```bash
     git clone https://github.com/UTD-4347-Databosses/Walmart_Database.git
     ```
+    
 3. Create a virtual environment:
     ```bash
     python3 -m venv venv
     ```
+    
 4. Activate the virtual environment:
     ```bash
     source venv/bin/activate
     ```
+    
 5. Install the required packages:
     ```bash
     pip install -r requirements.txt
     ```
+    
 6. Switch branches:
     ```bash
     git checkout dev/backend #OR dev/frontend
     ```
+    
 7. Run the application:
     ```bash
     python run.py
     ```
+    
 8. Code away
 
 Code is located in the `app` directory. The backend is in `routes.py` and the frontend is in the `static` and `templates` directories.
+
 9. *__PUSH AND PULL REGURLARLY__*
 
 This is vital for us to be able to work synchronously. Make sure you push and pull changes regularly and include descriptive comments on your commits. It is best practice to push your changes every time you stop working on a feature/page. It not only helps everyone stay up to date, but it also helps you write push comments that are descriptive of the changes you made AND prevents the hellish experience of trying to merge conflicts.
