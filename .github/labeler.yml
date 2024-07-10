@@ -1,18 +1,14 @@
 Documentation:
-  - head-branch: ["^dev/docs"]
   - changed-files:
       - any-glob-to-any-file: "docs/**"
 Frontend:
-  - head-branch: ["^dev/frontend"]
+  - head-branch: ["dev/frontend"]
   - changed-files:
       - any-glob-to-any-file: ["**.html", "**.css", "**.js"]
 Backend:
-  - head-branch: ["^dev/backend"]
+  - head-branch: ["dev/backend"]
   - changed-files:
-      - any-glob-to-any-file: ["**.py", "**.js", "**.java", "**.php", "**.rb"]
+      - any-glob-to-any-file: ["**.py"]
 Database:
-  - head-branch: ["^dev/database"]
   - changed-files:
       - any-glob-to-any-file: ["**.sql"]
-Review:
-  - head-branch: ["^dev/review"]
