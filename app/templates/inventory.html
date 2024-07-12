@@ -2,6 +2,16 @@
 
 {% block content %}
 <h1>This is the inventory page</h1>
+<div>
+    <label for="search_name">Search by item name:</label>
+    <input type="search" id="search_name" name="search_name">
+    <input type="submit" value="Search">
+</div>
+<div>
+    <label for="search_id">Search by item id:</label>
+    <input type="search" id="search_id" name="search_id">
+    <input type="submit" value="Search">
+</div>
 <a href='/'>Back to home</a>
 <a href='/customers' style='margin-left: 10px;'>Go to the customers page</a>
 {% endblock %}
