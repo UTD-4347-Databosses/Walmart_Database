@@ -4,15 +4,17 @@ bp = Blueprint('main', __name__)
 
 
 @bp.route('/')
-
-def index():
+def home():
     return render_template('walmart.html')
 
-@bp.route('/inventory')
+@bp.route('/employee')
 def inventory():
-    return render_template('inventory.html')
+    return render_template('employee.html')
 
 @bp.route('/customers')
 def customers():
     return render_template('customers.html')
 
+@bp.route('/vendor')
+def vendor():
+    return render_template('vendor.html')
