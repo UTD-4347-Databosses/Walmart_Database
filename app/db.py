@@ -9,7 +9,7 @@ def init_db(app):
     try:
         # Configure the SQLAlchemy part of the app instance
         app.config['SQLALCHEMY_DATABASE_URI'] = (
-            'mysql+pymysql://databoss:3is3x6vL^405AOGf@databoss-database.czk2mm6e60xo.us-east-1.rds.amazonaws.com:3306/your_database_name'
+            'mysql+pymysql://databoss:3is3x6vL^405AOGf@databoss-database.czk2mm6e60xo.us-east-1.rds.amazonaws.com:3306/Walmart'
         )
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
