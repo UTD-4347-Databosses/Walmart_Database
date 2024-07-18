@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 
 from flask import Flask
 
+from app.db import init_db
+
 
 def create_app():
     load_dotenv(".env")
@@ -33,6 +35,10 @@ def create_app():
     # Flask-WTF requires this line
     csrf = CSRFProtect(app)
     csrf.init_app(app)
+
+    # Initialize the database
+    db = init_db(app)
+
 
     from . import routes
     app.register_blueprint(routes.bp)
