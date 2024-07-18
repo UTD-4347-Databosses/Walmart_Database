@@ -62,9 +62,18 @@
     <div class="container">
         <div class="title">Walmart</div>
         <div class="links">
-            <a href="/customers">Customer</a>
-            <a href="/employee">Employee</a>
-            <a href="/vendor">Vendor</a>
+            {% if role == "customer" %}
+                <a href="/customers">Customer</a>
+                <a href="/settings">Settings</a>
+            {% elif role == "employee" %}
+                <a href="/employee">Employee</a>
+                <a href="/settings">Settings</a>
+            {% elif role == "vendor" %}
+                <a href="/vendor">Vendor</a>
+                <a href="/settings">Settings</a>
+            {% else %}
+                <a href="/settings">Settings</a>
+            {% endif %}
         </div>
         <div class="dropdown">
             <label for="locations">Locations:</label>
