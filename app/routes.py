@@ -2,7 +2,7 @@ from flask import Blueprint, make_response, redirect, render_template, session
 
 from app.db import db
 from app.InputForms import CustomerForm, SettingsForm
-from sql.walmartdb import Customer
+from app.db import Base
 
 bp = Blueprint('main', __name__)
 
@@ -19,9 +19,9 @@ def inventory():
     form = CustomerForm()
     if form.validate_on_submit():
         if form.radio.data == 'Fname':
-            query = db.session.query(Customer).filter(Customer.Fname == form.Fname.data).all()
+            query = db.session.query(Base.classes.Customer).filter(Base.classes.Customer.Fname == form.Fname.data).all()
         else:
-            query = db.session.query(Customer).filter(Customer.Lname == form.Lname.data).all()
+            query = db.session.query(Base.classes.Customer).filter(Base.classes.Customer.Lname == form.Lname.data).all()
         count = len(query)
         return render_template('customers.html', form=form, customers=query, count=count)
     return render_template('customers.html', form=form)
