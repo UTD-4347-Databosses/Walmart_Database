@@ -1,4 +1,5 @@
 Flask
 flask_wtf
 flask_sqlalchemy
+pymysql
 wtforms

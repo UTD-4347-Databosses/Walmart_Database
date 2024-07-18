@@ -1,15 +1,36 @@
 {% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
 
 {% block content %}
 <h1>This is the customers page</h1>
 <div>
-    <div>
-        <label for="search_name">What are you looking for?</label>
-    </div>
-    <div>
-        <input type="search" id="search_name" name="search_name">
-        <input type="submit" value="Search">
-    </div>
+    {{ render_form(form) }}
+
+    {% if customers and count > 0 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.customer_id }}</td>
+                <td>{{ customer.first_name }}</td>
+                <td>{{ customer.last_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif count == 0 %}
+    <p>No customers found</p>
+    {% endif %}
 </div>
-<a href='/' style='margin-left: 10px;'>Back to home</a>
+<a href='/'>Back to home</a>
 {% endblock %}
+<!-- </body> -->
+
