@@ -1,5 +1,7 @@
 Flask
 flask_wtf
 flask_sqlalchemy
-pymysql
 wtforms
+bootstrap-flask
+pymysql
+python-dotenv
