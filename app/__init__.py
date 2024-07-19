@@ -19,6 +19,7 @@ from app.db import init_db
 
 
 def create_app():
+    # This is what hides the database credentials
     load_dotenv(".env")
     app = Flask(__name__)
 
