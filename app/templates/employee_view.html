@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+
+{% block content %}
+<h1>Employee Database Search</h1>
+<div>
+  {{ render_form(form) }}
+
+  {% if employees and count > 0 %}
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Employee ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Start_date</th>
+      <th>Position</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for employee in employees %}
+    <tr>
+      <td>{{ employee.Employee_id }}</td>
+      <td>{{ employee.Fname }}</td>
+      <td>{{ employee.Lname }}</td>
+      <td>{{ employee.Start_date }}</td>
+      <td>{{ employee.Position_name }}</td>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% elif count == 0 %}
+  <p>No employees found</p>
+  {% endif %}
+</div>
+<a href='/employee'>Back</a>
+{% endblock %}

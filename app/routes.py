@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response, redirect, render_template, session
 
 from app.db import db
-from app.InputForms import CustomerForm, SettingsForm
+from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
 from app.db import Base
 
 bp = Blueprint('main', __name__)
@@ -15,8 +15,8 @@ def index():
 
 
 @bp.route('/customers', methods=['GET', 'POST'])
-def inventory():
-    form = CustomerForm()
+def customer():
+    form = EmployeeCustomerForm()
     if form.validate_on_submit():
         if form.radio.data == 'Fname':
             query = db.session.query(Base.classes.Customer).filter(Base.classes.Customer.Fname == form.Fname.data).all()
@@ -27,9 +27,26 @@ def inventory():
     return render_template('customers.html', form=form)
 
 @bp.route('/employee', methods=['GET', 'POST'])
-def customers():
+def employee():
     return render_template('employee.html')
 
+@bp.route('/employee_view', methods=['GET', 'POST'])
+def employee_view():
+    # TODO: Implement the employee view logic
+    form = EmployeeViewForm()
+    return render_template('employee_view.html', form=form)
+
+@bp.route('/employee_inventory', methods=['GET', 'POST'])
+def employee_inventory():
+    # TODO: Implement the employee inventory logic
+    form = EmployeeInventoryForm()
+    return render_template('employee_inventory.html', form=form)
+
+@bp.route('/employee_customers', methods=['GET', 'POST'])
+def employee_customers():
+    # TODO: Implement the employee customers logic
+    form = EmployeeCustomerForm()
+    return render_template('employee_customers.html', form=form)
 
 @bp.route('/vendor', methods=['GET', 'POST'])
 def vendor():

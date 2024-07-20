@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+
+{% block content %}
+<h1>Customers</h1>
+<div>
+    {{ render_form(form) }}
+
+    {% if customers and count > 0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>State</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer.Customer_id }}</td>
+            <td>{{ customer.Fname }}</td>
+            <td>{{ customer.Lname }}</td>
+            <td>{{ customer.Email }}</td>
+            <td>{{ customer.Phone_num }}</td>
+            <td>{{ customer.Street_address }}</td>
+            <td>{{ customer.City }}</td>
+            <td>{{ customer.State }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif count == 0 %}
+    <p>No customers found</p>
+    {% endif %}
+</div>
+<a href='/employee'>Back</a>
+{% endblock %}

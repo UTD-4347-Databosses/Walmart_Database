@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+
+{% block content %}
+<h1>Inventory</h1>
+<div>
+    {{ render_form(form) }}
+
+    {% if inventory and count > 0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Item ID</th>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Vendor ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in inventory %}
+        <tr>
+            <td>{{ item.Item_id }}</td>
+            <td>{{ item.Item_name }}</td>
+            <td>{{ item.Quantity }}</td>
+            <td>{{ item.Vendor_id }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif count == 0 %}
+    <p>No items found</p>
+    {% endif %}
+</div>
+<a href='/employee'>Back</a>
+{% endblock %}
