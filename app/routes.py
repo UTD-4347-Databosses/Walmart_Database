@@ -1,6 +1,7 @@
 from flask import Blueprint, make_response, redirect, render_template, session
 
-from app.db import db
+from app.InputForms import AdminPopulateForm, AdminResetForm, CustomerForm, SettingsForm
+from app.db import *
 from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
 from app.db import Base
 
@@ -63,3 +64,32 @@ def settings():
         response.set_cookie('role', session['role'], max_age=60 * 60)
         return response
     return render_template('settings.html', form=form)
+
+@bp.route('/admin', methods=['GET', 'POST'])
+def admin():
+    reset_form = AdminResetForm()
+    populate_form = AdminPopulateForm()
+    if reset_form.validate_on_submit():
+        if reset_form.options.data == 'reset_all':
+            reset_all()
+        elif reset_form.options.data == 'reset_customers':
+            reset_customers()
+        elif reset_form.options.data == 'reset_employees':
+            reset_employees()
+        elif reset_form.options.data == 'reset_vendors':
+            reset_vendors()
+        else:
+            pass
+
+    elif populate_form.validate_on_submit():
+        if populate_form.options.data == 'populate_all':
+            populate_all()
+        elif populate_form.options.data == 'populate_customers':
+            populate_customers()
+        elif populate_form.options.data == 'populate_employees':
+            populate_employees()
+        elif populate_form.options.data == 'populate_vendors':
+            populate_vendors()
+        else:
+            pass
+    return render_template('admin.html', reset_form=reset_form, populate_form=populate_form)

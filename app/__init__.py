@@ -2,7 +2,7 @@ import os
 import random
 
 from flask import Flask, render_template, redirect, url_for
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap, Bootstrap5
 
 
 from flask_wtf import FlaskForm, CSRFProtect
@@ -17,7 +17,6 @@ from app.db import init_db
 
 
 
-
 def create_app():
     # This is what hides the database credentials
     load_dotenv(".env")
@@ -27,18 +26,10 @@ def create_app():
     os.environ['FLASK_SESSION_ID'] = str(random.randint(0, 1000000))
 
     with app.app_context():
-        # Bootstrap-Flask requires this line
-        bootstrap = Bootstrap5(app)
-        # Flask-WTF requires this line
         csrf = CSRFProtect(app)
         csrf.init_app(app)
-
-        # Initialize the database
+        bootstrap = Bootstrap(app)
         init_db(app)
-
-
-
-
 
 
     from . import routes
