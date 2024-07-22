@@ -43,29 +43,29 @@ class EmployeeInventoryForm(FlaskForm):
 
 
 class SettingsForm(FlaskForm):
-	role = RadioField('Role',
-	                  choices=[('customer', 'Customer'), ('employee', 'Employee'), ('vendor', 'Vendor')],
-	                  default='customer')
-	submit = SubmitField('Submit')
+    role = RadioField('Role',
+                      choices=[('customer', 'Customer'), ('employee', 'Employee'), ('vendor', 'Vendor')],
+                      default='customer')
+    submit = SubmitField('Submit')
 
 
 class AdminResetForm(FlaskForm):
-	# Multiple choice, if all is selected, then the rest of the fields are greyed out
-	options = RadioField('Options',
-	                     choices=[('reset_all', 'Reset All'),
-	                              ('reset_customers', 'Reset Customers'),
-	                              ('reset_employees', 'Reset Employees'),
-	                              ('reset_vendors', 'Reset Vendors')],
-	                     default='reset_all')
-	submit = SubmitField('Submit')
+    # Multiple choice, if all is selected, then the rest of the fields are greyed out
+    options = RadioField('Options',
+                         choices=[('reset_all', 'Reset All'),
+                                  ('reset_customers', 'Reset Customers'),
+                                  ('reset_employees', 'Reset Employees'),
+                                  ('reset_vendors', 'Reset Vendors')],
+                         default='reset_all')
+    submit = SubmitField('Submit')
 
 
 class AdminPopulateForm(FlaskForm):
-	# Multiple choice, if all is selected, then the rest of the fields are greyed out
-	options = RadioField('Options',
-	                     choices=[('populate_all', 'Populate All'),
-	                              ('populate_customers', 'Populate Customers'),
-	                              ('populate_employees', 'Populate Employees'),
-	                              ('populate_vendors', 'Populate Vendors')],
-	                     default='populate_all')
-	submit = SubmitField('Submit')
+    # Multiple choice, if all is selected, then the rest of the fields are greyed out
+    options = RadioField('Options',
+                         choices=[('populate_all', 'Populate All'),
+                                  ('populate_customers', 'Populate Customers'),
+                                  ('populate_employees', 'Populate Employees'),
+                                  ('populate_vendors', 'Populate Vendors')],
+                         default='populate_all')
+    submit = SubmitField('Submit')

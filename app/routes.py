@@ -1,9 +1,9 @@
 from flask import Blueprint, make_response, redirect, render_template, session
 
-from app.InputForms import AdminPopulateForm, AdminResetForm, CustomerForm, SettingsForm
+from app.InputForms import AdminPopulateForm, AdminResetForm, EmployeeCustomerForm, EmployeeInventoryForm, EmployeeViewForm, SettingsForm
 from app.db import *
 from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
-from app.db import Base
+from app.db import map
 
 bp = Blueprint('main', __name__)
 
@@ -20,9 +20,9 @@ def customer():
     form = EmployeeCustomerForm()
     if form.validate_on_submit():
         if form.radio.data == 'Fname':
-            query = db.session.query(Base.classes.Customer).filter(Base.classes.Customer.Fname == form.Fname.data).all()
+            query = db.session.query(map.classes.Customer).filter(map.classes.Customer.Fname == form.Fname.data).all()
         else:
-            query = db.session.query(Base.classes.Customer).filter(Base.classes.Customer.Lname == form.Lname.data).all()
+            query = db.session.query(map.classes.Customer).filter(map.classes.Customer.Lname == form.Lname.data).all()
         count = len(query)
         return render_template('customers.html', form=form, customers=query, count=count)
     return render_template('customers.html', form=form)
@@ -35,6 +35,19 @@ def employee():
 def employee_view():
     # TODO: Implement the employee view logic
     form = EmployeeViewForm()
+    if form.validate_on_submit():
+        if form.radio.data == 'Fname':
+            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Fname == form.Fname.data).all()
+        elif form.radio.data == 'Lname':
+            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Lname == form.Lname.data).all()
+        elif form.radio.data == 'ID':
+            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Employee_id == form.ID.data).all()
+        elif form.radio.data == 'Date':
+            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Start_date == form.Date.data).all()
+        else:
+            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Position_name == form.Position.data).all()
+        count = len(query)
+        return render_template('employee_view.html', form=form, employees=query, count=count)
     return render_template('employee_view.html', form=form)
 
 @bp.route('/employee_inventory', methods=['GET', 'POST'])

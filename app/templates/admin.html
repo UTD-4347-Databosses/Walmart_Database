@@ -6,12 +6,27 @@
 <div>
     You can manage the database here
 </div>
-<div>
-    <a href='/customers'>Customers</a>
-    <a href='/products'>Employees</a>
-    <a href='/orders'>Vendors</a>
-    <a href='/settings'>Settings</a>
-    <a href='/'>Back to home</a>
+<div class="dropdown">
+  <button class="dropbtn">Employees</button>
+  <div class="dropdown-content">
+    <a href="/employee_view">View all employees</a>
+    <a href="/employee_customers">Employee Customer View</a>
+    <a href="/employee_inventory">Employee Inventory View</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Customers</button>
+    <div class="dropdown-content">
+        <a href="/customer_inventory">Customer Inventory View</a>
+        <a href="/customer_orders">Customer Orders View</a>
+    </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Vendors</button>
+    <div class="dropdown-content">
+        <a href="/vendor_inventory">Vendor Inventory View</a>
+        <a href="/vendor_orders">Vendor Orders View</a>
+    </div>
 </div>
 <div>
     {{ render_form(reset_form) }}
