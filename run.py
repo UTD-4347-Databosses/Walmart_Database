@@ -13,10 +13,10 @@ app = create_app()
 
 # opens web browser
 def open_browser():
-    subprocess.run(["python", "-m", "webbrowser", "-t", "http://127.0.0.1:5000/"])
+    subprocess.run(["python", "-m", "webbrowser", "-t", "http://127.0.0.1:8080/"])
 
 if __name__ == '__main__':
     # Set a timer to open the browser after a short delay
     Timer(1, open_browser).start()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
 
