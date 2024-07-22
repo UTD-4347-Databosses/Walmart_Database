@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+<h1>This is the admin page</h1>
+<div>
+    You can manage the database here
+</div>
+<div>
+    <a href='/customers'>Customers</a>
+    <a href='/products'>Employees</a>
+    <a href='/orders'>Vendors</a>
+    <a href='/settings'>Settings</a>
+    <a href='/'>Back to home</a>
+</div>
+<div>
+    {{ render_form(reset_form) }}
+</div>
+<div>
+    {{ render_form(populate_form) }}
+</div>
+{% endblock %}
+
+
