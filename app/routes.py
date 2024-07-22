@@ -24,7 +24,7 @@ def customer():
         else:
             query = db.session.query(map.classes.Customer).filter(map.classes.Customer.Lname == form.Lname.data).all()
         count = len(query)
-        return render_template('customers.html', form=form, customers=query, count=count)
+        return render_template('customers.html', form=form, results=query, count=count)
     return render_template('customers.html', form=form)
 
 @bp.route('/employee', methods=['GET', 'POST'])
@@ -47,8 +47,8 @@ def employee_view():
         else:
             query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Position_name == form.Position.data).all()
         count = len(query)
-        return render_template('employee_view.html', form=form, employees=query, count=count)
-    return render_template('employee_view.html', form=form)
+        return render_template('employee_view.html', form=form, results=query, count=count)
+    return render_template('employee_view.html', form=form, column_names=map.tables.Employee.columns.keys())
 
 @bp.route('/employee_inventory', methods=['GET', 'POST'])
 def employee_inventory():
@@ -60,7 +60,7 @@ def employee_inventory():
 def employee_customers():
     # TODO: Implement the employee customers logic
     form = EmployeeCustomerForm()
-    return render_template('employee_customers.html', form=form)
+    return render_template('employee_customers.html', form=form, column_names=map.tables.Customer.columns.keys())
 
 @bp.route('/vendor', methods=['GET', 'POST'])
 def vendor():
