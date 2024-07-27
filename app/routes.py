@@ -48,7 +48,13 @@ def employee_view():
             query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Position_name == form.Position.data).all()
         count = len(query)
         return render_template('employee_view.html', form=form, results=query, count=count)
-    return render_template('employee_view.html', form=form, column_names=map.tables.Employee.columns.keys())
+
+
+    else:
+        query = db.session.query(map.classes.Employee).all()
+        count = len(query)
+        return render_template('employee_view.html', form=form ,results=query, count=count , column_names=map.tables.Employee.columns.keys())
+
 
 @bp.route('/employee_inventory', methods=['GET', 'POST'])
 def employee_inventory():
