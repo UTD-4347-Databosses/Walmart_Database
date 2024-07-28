@@ -102,6 +102,8 @@ def employee_view():
     form = EmployeeViewForm()
     if form.validate_on_submit():
         if form.Operation.data == "add":
+
+
             try:
                 existing_employee = db.session.query(map.classes.Employee).filter_by(Employee_id=form.ID.data).first()
                 if existing_employee:
@@ -121,34 +123,40 @@ def employee_view():
                     db.session.commit()
                     flash('Employee added successfully!', 'success')  # For verification
 
-                query = db.session.query(map.classes.Employee).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).all()
                 count = len(query)
                 return render_template('employee_view.html', form=form, results=query, count=count)
+
+
             except Exception as e:
                 db.session.rollback()  # Rollback on error
                 print(f"Error adding employee: {e}", "danger")
-                query = db.session.query(map.classes.Employee).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).all()
                 count = len(query)
                 return render_template('employee_view.html', form=form, results=query, count=count, error=str(e))
 
+
+
         elif form.Operation.data == "search":
             if form.radio.data == 'Fname':
-                query = db.session.query(map.classes.Employee).filter(
-                    map.classes.Employee.Fname == form.Fname.data).all()
+                query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Fname == form.Fname.data).all()
             elif form.radio.data == 'Lname':
-                query = db.session.query(map.classes.Employee).filter(
-                    map.classes.Employee.Lname == form.Lname.data).all()
+                query = db.session.query(map.classes.Employee).filter( map.classes.Employee.Lname == form.Lname.data).all()
             elif form.radio.data == 'ID':
-                query = db.session.query(map.classes.Employee).filter(
-                    map.classes.Employee.Employee_id == form.ID.data).all()
+                query = db.session.query(map.classes.Employee).filter( map.classes.Employee.Employee_id == form.ID.data).all()
             elif form.radio.data == 'Date':
-                query = db.session.query(map.classes.Employee).filter(
-                    map.classes.Employee.Start_date == form.Date.data).all()
-            else:
-                query = db.session.query(map.classes.Employee).filter(
-                    map.classes.Employee.Position_name == form.Position.data).all()
+                query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Start_date == form.Date.data).all()
+            elif form.radio.data == 'Position':
+                query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Position_name == form.Position.data).all()
+            elif form.radio.data == 'Salary':
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.PositionType.Salary == form.Salary.data).all()
+            elif form.radio.data == 'Hourly':
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.PositionType.Hourly_wage == form.Hourly.data).all()
             count = len(query)
             return render_template('employee_view.html', form=form, results=query, count=count)
+
+
+
 
         elif form.Operation.data == "update":
             employee = db.session.query(map.classes.Employee).filter(
@@ -163,8 +171,7 @@ def employee_view():
             else:
                 flash('Employee not found!', 'danger!')
         elif form.Operation.data == "delete":
-            employee = db.session.query(map.classes.Employee).filter(
-                map.classes.Employee.Employee_id == form.ID.data).first()
+            employee = db.session.query(map.classes.Employee).filter(map.classes.Employee.Employee_id == form.ID.data).first()
             if employee:
                 db.session.delete(employee)
                 db.session.commit()
@@ -172,14 +179,22 @@ def employee_view():
             else:
                 flash('Employee not found!', 'danger')
 
-        query = db.session.query(map.classes.Employee).all()
+        query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).all()
         count = len(query)
         return render_template('employee_view.html', form=form, results=query, count=count)
     else:
-        query = db.session.query(map.classes.Employee).all()
+        query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).all()
+        first_employee = query[0]
+        #print(first_employee)
+
         count = len(query)
         return render_template('employee_view.html', form=form, results=query, count=count)
     # return render_template('employee_view.html', form=form, column_names=map.tables.Employee.columns.keys())
+
+
+
+
+
 
 
 @bp.route('/employee_inventory', methods=['GET', 'POST'])

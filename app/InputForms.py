@@ -62,10 +62,11 @@ class EmployeeViewForm(FlaskForm):
     ID = StringField('Employee ID')
     Date = StringField('Start Date')
     Position = StringField('Position')
-
+    Salary = StringField('Salary')
+    Hourly = StringField('Hourly')
     radio = RadioField('Search By',
                           choices=[('Fname', 'First Name'), ('Lname', 'Last Name'), ('ID', 'Employee ID'),
-                                    ('Date', 'Start Date'), ('Position', 'Position')],
+                                    ('Date', 'Start Date'), ('Position', 'Position'), ('Salary', 'Salary'), ('Hourly', 'Hourly')],
                           default='Fname')
 
     Operation = SelectField('Operation', choices=[('add', 'Add Employee'), ('update', 'Update Employee'), ('delete', 'Delete Employee'), ('search', 'Search')])
