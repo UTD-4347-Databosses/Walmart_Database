@@ -27,7 +27,7 @@ class EmployeeViewForm(FlaskForm):
     radio = RadioField('Search By',
                           choices=[('Fname', 'First Name'), ('Lname', 'Last Name'), ('ID', 'Employee ID'),
                                     ('Date', 'Start Date'), ('Position', 'Position')],
-                          default='name')
+                          default='Fname')
 
     Operation = SelectField('Operation', choices=[('add', 'Add Employee'), ('update', 'Update Employee'), ('delete', 'Delete Employee'), ('search', 'Search')])
     submit = SubmitField('Submit')

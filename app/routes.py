@@ -93,7 +93,7 @@ def employee_view():
             else:
                 flash('Employee not found!', 'danger')
 
-        return redirect(url_for('employee_view'))
+        return redirect(url_for('main.employee_view'))
     else:
         query = db.session.query(map.classes.Employee).all()
         count = len(query)
