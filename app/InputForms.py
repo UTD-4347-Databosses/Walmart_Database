@@ -19,6 +19,7 @@ EMPLOYEE SECTION ***************************************************************
 **************************************************************************************************
 '''
 
+
 class EmployeeCustomerForm(FlaskForm):
     Fname = StringField('First Name')
     Lname = StringField('Last Name')
@@ -30,9 +31,10 @@ class EmployeeCustomerForm(FlaskForm):
     State = StringField('State')
     radio = RadioField('Search By',
                           choices=[('Fname', 'First Name'), ('Lname', 'Last Name'), ('ID', 'Customer ID')],
-                          default='name')
+                          default='Fname')
     Operation = SelectField('Operation', choices=[('add', 'Add Customer'), ('update', 'Update Customer'), ('delete', 'Delete Customer'), ('search', 'Search')])
     submit = SubmitField('Submit')
+
 
 class EmployeeViewForm(FlaskForm):
     Fname = StringField('First Name')
