@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, redirect, render_template, session
+from flask import Blueprint, make_response, redirect, render_template, session, flash, url_for
 
 from app.InputForms import AdminPopulateForm, AdminResetForm, EmployeeCustomerForm, EmployeeInventoryForm, EmployeeViewForm, SettingsForm
 from app.db import *
@@ -27,40 +27,138 @@ def customer():
         return render_template('customers.html', form=form, results=query, count=count)
     return render_template('customers.html', form=form)
 
+
 @bp.route('/employee', methods=['GET', 'POST'])
 def employee():
     return render_template('employee.html')
 
+
 @bp.route('/employee_view', methods=['GET', 'POST'])
 def employee_view():
     # TODO: Implement the employee view logic
+    query = []  # Reset query to ensure previous search is cleared after every search
     form = EmployeeViewForm()
     if form.validate_on_submit():
-        if form.radio.data == 'Fname':
-            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Fname == form.Fname.data).all()
-        elif form.radio.data == 'Lname':
-            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Lname == form.Lname.data).all()
-        elif form.radio.data == 'ID':
-            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Employee_id == form.ID.data).all()
-        elif form.radio.data == 'Date':
-            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Start_date == form.Date.data).all()
-        else:
-            query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Position_name == form.Position.data).all()
+        if form.Operation.data == "add":
+            # Assuming user inputs all necessary info for the Employee
+            new_employee = map.classes.Employee(
+                Fname=form.Fname.data,
+                Lname=form.Lname.data,
+                Employee_id=form.ID.data,
+                Start_date=form.Date.data,
+                Position_name=form.Position.data
+            )
+            db.session.add(new_employee)
+            db.session.commit()
+            flash('Employee added successfully!', 'success')  # For verification
+
+        elif form.Operation.data == "search":
+            if form.radio.data == 'Fname':
+                query = db.session.query(map.classes.Employee).filter(
+                    map.classes.Employee.Fname == form.Fname.data).all()
+            elif form.radio.data == 'Lname':
+                query = db.session.query(map.classes.Employee).filter(
+                    map.classes.Employee.Lname == form.Lname.data).all()
+            elif form.radio.data == 'ID':
+                query = db.session.query(map.classes.Employee).filter(
+                    map.classes.Employee.Employee_id == form.ID.data).all()
+            elif form.radio.data == 'Date':
+                query = db.session.query(map.classes.Employee).filter(
+                    map.classes.Employee.Start_date == form.Date.data).all()
+            else:
+                query = db.session.query(map.classes.Employee).filter(
+                    map.classes.Employee.Position_name == form.Position.data).all()
+            count = len(query)
+            return render_template('employee_view.html', form=form, results=query, count=count)
+
+        elif form.Operation.data == "update":
+            employee = db.session.query(map.classes.Employee).filter(
+                map.classes.Employee.Employee_id == form.ID.data).first()
+            if employee:
+                employee.Fname = form.Fname.data
+                employee.Lname = form.Lname.data
+                employee.Start_date = form.Date.data
+                employee.Position_name = form.Position.data
+                db.session.commit()
+                flash('Employee updated successfully!', 'success!')
+            else:
+                flash('Employee not found!', 'danger!')
+        elif form.Operation.data == "delete":
+            employee = db.session.query(map.classes.Employee).filter(
+                map.classes.Employee.Employee_id == form.ID.data).first()
+            if employee:
+                db.session.delete(employee)
+                db.session.commit()
+                flash('Employee deleted successfully!', 'success')
+            else:
+                flash('Employee not found!', 'danger')
+
+        return redirect(url_for('employee_view'))
+    else:
+        query = db.session.query(map.classes.Employee).all()
         count = len(query)
         return render_template('employee_view.html', form=form, results=query, count=count)
-    return render_template('employee_view.html', form=form, column_names=map.tables.Employee.columns.keys())
+    # return render_template('employee_view.html', form=form, column_names=map.tables.Employee.columns.keys())
+
 
 @bp.route('/employee_inventory', methods=['GET', 'POST'])
 def employee_inventory():
     # TODO: Implement the employee inventory logic
+    query = []  # Reset query to ensure previous search is cleared after every search
     form = EmployeeInventoryForm()
+    if form.validate_on_submit():
+        if form.radio.data == 'ID':
+            query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_id == form.ID.data).all()
+        elif form.radio.data == 'Name':
+            query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_name == form.Name.data).all()
+        elif form.radio.data == 'Vendor':
+            query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Vendor_id == form.Vendor.data).all()
+        count = len(query)
+
+        if form.Operation.data == "search":
+            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+        elif form.Operation.data == "add":
+            # Assuming form has all necessary fields for an Inventory item
+            new_inventory = map.classes.Inventory(
+                ID=form.ID.data,
+                Name=form.Name.data,
+                Quantity=form.Quantity.data,
+                Vendor=form.Vendor.data
+            )
+            db.session.add(new_inventory)
+            db.session.commit()
+            flash('Inventory item added successfully!', 'success')
+        elif form.Operation.data == "update":
+            inventory_item = db.session.query(map.classes.Inventory).filter(
+                map.classes.Inventory.Item_id == form.ID.data).first()
+            if inventory_item:
+                inventory_item.Item_name = form.Name.data
+                inventory_item.Quantity = form.Quantity.data
+                inventory_item.Vendor_id = form.Vendor.data
+                db.session.commit()
+                flash('Inventory item updated successfully!', 'success')
+            else:
+                flash('Inventory item not found!', 'danger')
+        elif form.Operation.data == "delete":
+            inventory_item = db.session.query(map.classes.Inventory).filter(
+                map.classes.Inventory.Item_id == form.ID.data).first()
+            if inventory_item:
+                db.session.delete(inventory_item)
+                db.session.commit()
+                flash('Inventory item deleted successfully!', 'success!')
+            else:
+                flash('Inventory item not found!', 'danger!')
+
+        return redirect(url_for('employee_inventory'))
     return render_template('employee_inventory.html', form=form)
+
 
 @bp.route('/employee_customers', methods=['GET', 'POST'])
 def employee_customers():
     # TODO: Implement the employee customers logic
     form = EmployeeCustomerForm()
     return render_template('employee_customers.html', form=form, column_names=map.tables.Customer.columns.keys())
+
 
 @bp.route('/vendor', methods=['GET', 'POST'])
 def vendor():
