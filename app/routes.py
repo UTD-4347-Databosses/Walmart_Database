@@ -15,6 +15,14 @@ def index():
     return render_template('walmart.html', role=session['role'])
 
 
+
+'''
+**************************************************************************************************
+CUSTOMER SECTION *********************************************************************************
+**************************************************************************************************
+'''
+
+"""
 @bp.route('/customers', methods=['GET', 'POST'])
 def customer():
     form = EmployeeCustomerForm()
@@ -24,9 +32,21 @@ def customer():
         else:
             query = db.session.query(map.classes.Customer).filter(map.classes.Customer.Lname == form.Lname.data).all()
         count = len(query)
-        return render_template('customers.html', form=form, results=query, count=count)
-    return render_template('customers.html', form=form)
+        return render_template('customer.html', form=form, results=query, count=count)
+    return render_template('customer.html', form=form)
 
+"""
+
+@bp.route('/customer', methods=['GET', 'POST'])
+def employee():
+    return render_template('customer.html')
+
+
+'''
+**************************************************************************************************
+EMPLOYEE SECTION *********************************************************************************
+**************************************************************************************************
+'''
 
 @bp.route('/employee', methods=['GET', 'POST'])
 def employee():
@@ -179,6 +199,16 @@ def employee_customers():
     return render_template('employee_customers.html', form=form, column_names=map.tables.Customer.columns.keys())
 
 
+
+
+
+
+
+'''
+**************************************************************************************************
+OTHER SECTION *********************************************************************************
+**************************************************************************************************
+'''
 @bp.route('/vendor', methods=['GET', 'POST'])
 def vendor():
     return render_template('vendor.html')
