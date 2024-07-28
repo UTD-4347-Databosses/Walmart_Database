@@ -146,27 +146,29 @@ def employee_inventory():
     query = []  # Reset query to ensure previous search is cleared after every search
     form = EmployeeInventoryForm()
     if form.validate_on_submit():
-        if form.radio.data == 'ID':
-            query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_id == form.ID.data).all()
-        elif form.radio.data == 'Name':
-            query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_name == form.Name.data).all()
-        elif form.radio.data == 'Vendor':
-            query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Vendor_id == form.Vendor.data).all()
-        count = len(query)
-
-        if form.Operation.data == "search":
-            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
-        elif form.Operation.data == "add":
+        if form.Operation.data == "add":
             # Assuming form has all necessary fields for an Inventory item
             new_inventory = map.classes.Inventory(
-                ID=form.ID.data,
-                Name=form.Name.data,
+                Item_id=form.ID.data,
+                Item_name=form.Name.data,
                 Quantity=form.Quantity.data,
-                Vendor=form.Vendor.data
+                Vendor_id=form.Vendor.data
             )
             db.session.add(new_inventory)
             db.session.commit()
             flash('Inventory item added successfully!', 'success')
+        elif form.Operation.data == "search":
+            if form.radio.data == 'ID':
+                query = db.session.query(map.classes.Inventory).filter(
+                    map.classes.Inventory.Item_id == form.ID.data).all()
+            elif form.radio.data == 'Name':
+                query = db.session.query(map.classes.Inventory).filter(
+                    map.classes.Inventory.Item_name == form.Name.data).all()
+            elif form.radio.data == 'Vendor':
+                query = db.session.query(map.classes.Inventory).filter(
+                    map.classes.Inventory.Vendor_id == form.Vendor.data).all()
+            count = len(query)
+            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
         elif form.Operation.data == "update":
             inventory_item = db.session.query(map.classes.Inventory).filter(
                 map.classes.Inventory.Item_id == form.ID.data).first()
@@ -188,12 +190,17 @@ def employee_inventory():
             else:
                 flash('Inventory item not found!', 'danger!')
 
-        return redirect(url_for('employee_inventory'))
-    return render_template('employee_inventory.html', form=form)
+        return redirect(url_for('main.employee_inventory'))
+    else:
+        query = db.session.query(map.classes.Inventory).all()
+        count = len(query)
+        return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+    # return render_template('employee_inventory.html', form=form)
 
 
 @bp.route('/employee_customers', methods=['GET', 'POST'])
 def employee_customers():
+
     # TODO: Implement the employee customers logic
     form = EmployeeCustomerForm()
     return render_template('employee_customers.html', form=form, column_names=map.tables.Customer.columns.keys())
