@@ -40,17 +40,34 @@ def employee_view():
     form = EmployeeViewForm()
     if form.validate_on_submit():
         if form.Operation.data == "add":
-            # Assuming user inputs all necessary info for the Employee
-            new_employee = map.classes.Employee(
-                Fname=form.Fname.data,
-                Lname=form.Lname.data,
-                Employee_id=form.ID.data,
-                Start_date=form.Date.data,
-                Position_name=form.Position.data
-            )
-            db.session.add(new_employee)
-            db.session.commit()
-            flash('Employee added successfully!', 'success')  # For verification
+            try:
+                existing_employee = db.session.query(map.classes.Employee).filter_by(Employee_id=form.ID.data).first()
+                if existing_employee:
+                    flash(message='Employee already exists!', category='danger')
+
+                else:
+                    # Assuming user inputs all necessary info for the Employee
+                    new_employee = map.classes.Employee(
+                        Fname=form.Fname.data,
+                        Lname=form.Lname.data,
+                        Employee_id=form.ID.data,
+                        Start_date=form.Date.data,
+                        Position_name=form.Position.data
+                    )
+
+                    db.session.add(new_employee)
+                    db.session.commit()
+                    flash('Employee added successfully!', 'success')  # For verification
+
+                query = db.session.query(map.classes.Employee).all()
+                count = len(query)
+                return render_template('employee_view.html', form=form, results=query, count=count)
+            except Exception as e:
+                db.session.rollback()  # Rollback on error
+                print(f"Error adding employee: {e}", "danger")
+                query = db.session.query(map.classes.Employee).all()
+                count = len(query)
+                return render_template('employee_view.html', form=form, results=query, count=count, error=str(e))
 
         elif form.Operation.data == "search":
             if form.radio.data == 'Fname':
@@ -93,7 +110,9 @@ def employee_view():
             else:
                 flash('Employee not found!', 'danger')
 
-        return redirect(url_for('main.employee_view'))
+        query = db.session.query(map.classes.Employee).all()
+        count = len(query)
+        return render_template('employee_view.html', form=form, results=query, count=count)
     else:
         query = db.session.query(map.classes.Employee).all()
         count = len(query)
