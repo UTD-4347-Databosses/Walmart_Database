@@ -38,7 +38,7 @@ def customer():
 """
 
 @bp.route('/customer', methods=['GET', 'POST'])
-def employee():
+def customer():
     return render_template('customer.html')
 
 
