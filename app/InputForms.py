@@ -7,12 +7,27 @@ from wtforms import RadioField, StringField, SubmitField, SelectField
 CUSTOMER SECTION *********************************************************************************
 **************************************************************************************************
 '''
-#class CustomerInventoryForm(FlaskForm):
+class CustomerInventoryForm(FlaskForm):
+    ID = StringField('Item ID')
+    Name = StringField('Item Name')
+    Quantity = StringField('Quantity')
+    radio = RadioField('Search By',
+                       choices=[('ID', 'Item ID'), ('Name', 'Item Name')],
+                       default='ID')
+    Operation = SelectField('Operation', choices=[('add', 'Add Item'), ('update', 'Update Item'), ('delete', 'Delete Item'), ('search', 'Search')])
+    submit = SubmitField('Submit')
 
-
-
-
-
+class CustomerTransactionForm(FlaskForm):
+    TransactionID = StringField('Transaction ID')
+    CustomerID = StringField('Customer ID')
+    EmployeeID = StringField('Employee ID')
+    LocationID = StringField('Location ID')
+    TransactionAmount = StringField('Transaction Amount')
+    radio = RadioField('Search By'
+                       choices=[('TransactionID', 'Transaction ID'), ('CustomerID', 'Customer ID'), ('EmployeeID', 'Employee ID'), ('LocationID', 'Location ID'), ('TransactionAmount', 'Transaction Amount')],
+                       default='TransactionID')
+    Operation = SelectField('Operation', choices=[('add', 'Add Transaction'), ('update', 'Update Transaction'), ('delete', 'Delete Transaction'), ('search', 'Search')])
+    submit = SubmitField('Submit')
 '''
 **************************************************************************************************
 EMPLOYEE SECTION *********************************************************************************
@@ -59,17 +74,6 @@ class EmployeeInventoryForm(FlaskForm):
                             default='ID')
     Operation = SelectField('Operation', choices=[('add', 'Add Item'), ('update', 'Update Item'), ('delete', 'Delete Item'), ('search', 'Search')])
     submit = SubmitField('Submit')
-
-class CustomerInventoryForm(FlaskForm):
-    ID = StringField('Item ID')
-    Name = StringField('Item Name')
-    Quantity = StringField('Quantity')
-    radio = RadioField('Search By',
-                       choices=[('ID', 'Item ID'), ('Name', 'Item Name')],
-                       default='name')
-    Operation = SelectField('Operation', choices=[('add', 'Add Item'), ('update', 'Update Item'), ('delete', 'Delete Item'), ('search', 'Search')])
-    submit = SubmitField('Submit')
-
 
 '''
 **************************************************************************************************
