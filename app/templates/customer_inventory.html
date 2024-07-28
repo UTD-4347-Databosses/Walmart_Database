@@ -1,55 +1,37 @@
 {% extends 'layout.html' %}
 {% from 'bootstrap5/form.html' import render_form %}
 
+
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Search Results</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
-</head>
-<body>
-
-<h1>Customer Search Results</h1>
-
-<input type="text" id="searchInput" placeholder="Search for items..." oninput="filterTable()">
-
+<h1>Inventory</h1>
 <div>
     {{ render_form(form) }}
 
-    <table id="resultsTable">
+    {% if results and count > 0 %}
+    <table class="table">
         <thead>
         <tr>
             <th>Item ID</th>
             <th>Item Name</th>
             <th>Quantity</th>
+            <th>Vendor ID</th>
+            <th>Price</th>
         </tr>
         </thead>
         <tbody>
-	{% for item in inventory %}
-	<tr>
+        {% for item in results %}
+        <tr>
             <td>{{ item.Item_id }}</td>
-	    <td>{{ item.Item_name }}</td>
-	    <td>{{ item.Quantity }}</td>
-      	    {% endfor %}
-	</tr>
+            <td>{{ item.Item_name }}</td>
+            <td>{{ item.Quantity }}</td>
+            <td>{{ item.Vendor_id }}</td>
+            <td>{{ item.Price }}</td>
+            {% endfor %}
         </tbody>
     </table>
+    {% elif count == 0 %}
+    <p>No items found</p>
+    {% endif %}
 </div>
-
-</body>
-
+<a href='/customer'>Back</a>
 {% endblock %}

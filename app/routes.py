@@ -1,6 +1,7 @@
 from flask import Blueprint, make_response, redirect, render_template, session, flash, url_for
 
-from app.InputForms import AdminPopulateForm, AdminResetForm, EmployeeCustomerForm, EmployeeInventoryForm, EmployeeViewForm, SettingsForm
+from app.InputForms import AdminPopulateForm, AdminResetForm, EmployeeCustomerForm, EmployeeInventoryForm, \
+    EmployeeViewForm, SettingsForm, CustomerInventoryForm, CustomerTransactionForm
 from app.db import *
 from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
 from app.db import map
@@ -22,24 +23,64 @@ CUSTOMER SECTION ***************************************************************
 **************************************************************************************************
 '''
 
-"""
-@bp.route('/customers', methods=['GET', 'POST'])
-def customer():
-    form = EmployeeCustomerForm()
-    if form.validate_on_submit():
-        if form.radio.data == 'Fname':
-            query = db.session.query(map.classes.Customer).filter(map.classes.Customer.Fname == form.Fname.data).all()
-        else:
-            query = db.session.query(map.classes.Customer).filter(map.classes.Customer.Lname == form.Lname.data).all()
-        count = len(query)
-        return render_template('customer.html', form=form, results=query, count=count)
-    return render_template('customer.html', form=form)
-
-"""
-
 @bp.route('/customer', methods=['GET', 'POST'])
 def customer():
     return render_template('customer.html')
+
+
+@bp.route('/customer_inventory', methods=['GET', 'POST'])
+def customer_inventory():
+    query = []  # Reset query to ensure previous search is cleared after every search
+    form = CustomerInventoryForm()
+    if form.validate_on_submit():
+
+        if form.Operation.data == "search":
+            if form.radio.data == 'ID':
+                query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_id   == form.ID.data).all()
+            elif form.radio.data == 'Name':
+                query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_name  == form.Name.data).all()
+            elif form.radio.data == 'Price':
+                query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Price == form.Price.data).all()
+
+
+            count = len(query)
+            return render_template('customer_inventory.html', form=form, results=query, count=count)
+
+
+    else:
+        query = db.session.query(map.classes.Inventory).all()
+        count = len(query)
+        return render_template('customer_inventory.html', form=form, results=query, count=count)
+
+
+
+@bp.route('/customer_transactions', methods=['GET', 'POST'])
+def customer_transactions():
+    query = []  # Reset query to ensure previous search is cleared after every search
+    form = CustomerTransactionForm()
+    if form.validate_on_submit():
+
+        if form.Operation.data == "search":
+            if form.radio.data == 'TransactionID':
+                query = db.session.query(map.classes.Transaction).filter(map.classes.Transaction.Transaction_id == form.TransactionID.data).all()
+            elif form.radio.data == 'CustomerID':
+                query = db.session.query(map.classes.Transaction).filter(map.classes.Transaction.Lname == form.CustomerID.data).all()
+            elif form.radio.data == 'EmployeeID':
+                query = db.session.query(map.classes.Transaction).filter(map.classes.Transaction.Employee_id == form.EmployeeID.data).all()
+            elif form.radio.data == 'LocationID':
+                query = db.session.query(map.classes.Transaction).filter(map.classes.TransactionEmployee.Start_date == form.LocationID.data).all()
+            elif form.radio.data == 'TransactionAmount':
+                query = db.session.query(map.classes.Transaction).filter(map.classes.Transaction.Start_date == form.TransactionAmount.data).all()
+
+            count = len(query)
+            return render_template('customer_transactions.html', form=form, results=query, count=count)
+
+
+    else:
+        query = db.session.query(map.classes.Transaction).all()
+        count = len(query)
+        return render_template('customer_transactions.html', form=form, results=query, count=count)
+
 
 
 '''
@@ -146,7 +187,11 @@ def employee_inventory():
     # TODO: Implement the employee inventory logic
     query = []  # Reset query to ensure previous search is cleared after every search
     form = EmployeeInventoryForm()
+
+
     if form.validate_on_submit():
+
+
         if form.Operation.data == "add":
             # Assuming form has all necessary fields for an Inventory item
             new_inventory = map.classes.Inventory(
@@ -158,6 +203,12 @@ def employee_inventory():
             db.session.add(new_inventory)
             db.session.commit()
             flash('Inventory item added successfully!', 'success')
+
+            count = len(query)
+            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+
+
+
         elif form.Operation.data == "search":
             if form.radio.data == 'ID':
                 query = db.session.query(map.classes.Inventory).filter(
@@ -170,6 +221,9 @@ def employee_inventory():
                     map.classes.Inventory.Vendor_id == form.Vendor.data).all()
             count = len(query)
             return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+
+
+
         elif form.Operation.data == "update":
             inventory_item = db.session.query(map.classes.Inventory).filter(
                 map.classes.Inventory.Item_id == form.ID.data).first()
@@ -181,6 +235,12 @@ def employee_inventory():
                 flash('Inventory item updated successfully!', 'success')
             else:
                 flash('Inventory item not found!', 'danger')
+
+            count = len(query)
+            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+
+
+
         elif form.Operation.data == "delete":
             inventory_item = db.session.query(map.classes.Inventory).filter(
                 map.classes.Inventory.Item_id == form.ID.data).first()
@@ -191,7 +251,9 @@ def employee_inventory():
             else:
                 flash('Inventory item not found!', 'danger!')
 
-        return redirect(url_for('main.employee_inventory'))
+            count = len(query)
+            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+
     else:
         query = db.session.query(map.classes.Inventory).all()
         count = len(query)
@@ -206,6 +268,8 @@ def employee_customers():
     query = []  # Reset query to ensure previous search is cleared after every search
 
     if form.validate_on_submit():
+
+
         if form.Operation.data == "add":
             # Assuming form has all necessary fields for an Inventory item
             new_customer = map.classes.Customer(
@@ -221,6 +285,8 @@ def employee_customers():
             db.session.add(new_customer)
             db.session.commit()
             flash('Customer info added successfully!', 'success')
+
+
         elif form.Operation.data == "search":
             if form.radio.data == 'ID':
                 query = db.session.query(map.classes.Customer).filter(
@@ -233,6 +299,9 @@ def employee_customers():
                     map.classes.Customer.Lname == form.Lname.data).all()
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
+
+
+
         elif form.Operation.data == "update":
             customer_info = db.session.query(map.classes.Customer).filter(
                 map.classes.Customer.Customer_id == form.ID.data).first()
@@ -249,6 +318,9 @@ def employee_customers():
                 flash('Customer information updated successfully!', 'success')
             else:
                 flash('Customer information not found!', 'danger')
+
+
+
         elif form.Operation.data == "delete":
             customer_info = db.session.query(map.classes.Customer).filter(
                 map.classes.Customer.Customer_id == form.ID.data).first()
@@ -260,10 +332,21 @@ def employee_customers():
                 flash('Inventory item not found!', 'danger!')
 
         return redirect(url_for('main.employee_customers'))
+
+
     else:
         query = db.session.query(map.classes.Customer).all()
         count = len(query)
         return render_template('employee_customers.html', form=form, results=query, count=count)
+
+
+
+
+
+
+
+
+
 
 
 '''

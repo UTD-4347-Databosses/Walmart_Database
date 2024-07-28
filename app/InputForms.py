@@ -7,14 +7,16 @@ from wtforms import RadioField, StringField, SubmitField, SelectField
 CUSTOMER SECTION *********************************************************************************
 **************************************************************************************************
 '''
+
+
 class CustomerInventoryForm(FlaskForm):
     ID = StringField('Item ID')
     Name = StringField('Item Name')
-    Quantity = StringField('Quantity')
+    Price = StringField('Price')
     radio = RadioField('Search By',
-                       choices=[('ID', 'Item ID'), ('Name', 'Item Name')],
+                       choices=[('ID', 'Item ID'), ('Name', 'Item Name'), ('Price', 'Price')],
                        default='ID')
-    Operation = SelectField('Operation', choices=[('add', 'Add Item'), ('update', 'Update Item'), ('delete', 'Delete Item'), ('search', 'Search')])
+    Operation = SelectField('Operation', choices=[('search', 'Search')])
     submit = SubmitField('Submit')
 
 class CustomerTransactionForm(FlaskForm):
@@ -23,11 +25,14 @@ class CustomerTransactionForm(FlaskForm):
     EmployeeID = StringField('Employee ID')
     LocationID = StringField('Location ID')
     TransactionAmount = StringField('Transaction Amount')
-    radio = RadioField('Search By'
-                       choices=[('TransactionID', 'Transaction ID'), ('CustomerID', 'Customer ID'), ('EmployeeID', 'Employee ID'), ('LocationID', 'Location ID'), ('TransactionAmount', 'Transaction Amount')],
+    radio = RadioField('Search By',
+                    choices=[('TransactionID', 'Transaction ID'), ('CustomerID', 'Customer ID'), ('EmployeeID', 'Employee ID'), ('LocationID', 'Location ID'), ('TransactionAmount', 'Transaction Amount')],
                        default='TransactionID')
-    Operation = SelectField('Operation', choices=[('add', 'Add Transaction'), ('update', 'Update Transaction'), ('delete', 'Delete Transaction'), ('search', 'Search')])
+    Operation = SelectField('Operation', choices=[('search', 'Search')])
     submit = SubmitField('Submit')
+
+
+
 '''
 **************************************************************************************************
 EMPLOYEE SECTION *********************************************************************************
