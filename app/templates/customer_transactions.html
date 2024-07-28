@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Customer Transaction History</h1>
+
+<div>
+    {{ render_form(form) }}
+
+    <h2>Customer ID: <span id="customerId"></span></h2>
+    
+    <table id="transactionTable">
+        <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Employee ID</th>
+            <th>Location ID</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+	    <td> transaction.Transaction_id </td>
+	    <td> employee.Employee_id </td>
+	    <td> location.Location_id </td>
+	    <td> transaction.Transaction_amount </td>
+        </tbody>
+    </table>
+    
+    <script>
+	customerId = customer.Customer_id;
+
+	function displayCustomerId() {
+            document.getElementById('customerId').innerText = customerId;
+    	}
+
+	window.onload = function() {
+            populateTransactionTable();
+            displayCustomerId();
+        };
+    </script>
+
+</div>
+
+</body>
+
+{% endblock %}

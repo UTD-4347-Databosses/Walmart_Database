@@ -176,6 +176,7 @@ def settings():
         return response
     return render_template('settings.html', form=form)
 
+
 @bp.route('/admin', methods=['GET', 'POST'])
 def admin():
     reset_form = AdminResetForm()

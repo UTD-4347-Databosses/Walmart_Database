@@ -23,10 +23,12 @@ class EmployeeViewForm(FlaskForm):
     ID = StringField('Employee ID')
     Date = StringField('Start Date')
     Position = StringField('Position')
+
     radio = RadioField('Search By',
                           choices=[('Fname', 'First Name'), ('Lname', 'Last Name'), ('ID', 'Employee ID'),
                                     ('Date', 'Start Date'), ('Position', 'Position')],
                           default='name')
+
     Operation = SelectField('Operation', choices=[('add', 'Add Employee'), ('update', 'Update Employee'), ('delete', 'Delete Employee'), ('search', 'Search')])
     submit = SubmitField('Submit')
 
