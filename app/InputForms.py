@@ -8,7 +8,9 @@ CUSTOMER SECTION ***************************************************************
 **************************************************************************************************
 '''
 
-
+###################
+# GOOD ONE
+####### ##############
 class CustomerInventoryForm(FlaskForm):
     ID = StringField('Item ID')
     Name = StringField('Item Name')
@@ -18,6 +20,23 @@ class CustomerInventoryForm(FlaskForm):
                        default='ID')
     Operation = SelectField('Operation', choices=[('search', 'Search')])
     submit = SubmitField('Submit')
+
+
+###################
+# BAD ONE
+####### ##############
+class BadCustomerInventoryForm(FlaskForm):
+    ID = StringField('Item ID')
+    Name = StringField('Item Name')
+    Price = StringField('Price')
+    radio = RadioField('Search By',
+                       choices=[('ID', 'Item ID'), ('Name', 'Item Name'), ('Price', 'Price')],
+                       default='ID')
+    Operation = SelectField('Operation', choices=[('search', 'Search')])
+    submit = SubmitField('Submit')
+
+
+
 
 class CustomerTransactionForm(FlaskForm):
     TransactionID = StringField('Transaction ID')

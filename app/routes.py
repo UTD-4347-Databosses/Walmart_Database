@@ -1,11 +1,11 @@
 from flask import Blueprint, make_response, redirect, render_template, session, flash, url_for
 
 from app.InputForms import AdminPopulateForm, AdminResetForm, EmployeeCustomerForm, EmployeeInventoryForm, \
-    EmployeeViewForm, SettingsForm, CustomerInventoryForm, CustomerTransactionForm
+    EmployeeViewForm, SettingsForm, CustomerInventoryForm, CustomerTransactionForm, BadCustomerInventoryForm
 from app.db import *
 from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
 from app.db import map
-
+from sqlalchemy import text
 
 
 bp = Blueprint('main', __name__)
@@ -29,6 +29,9 @@ CUSTOMER SECTION ***************************************************************
 def customer():
     return render_template('customer.html')
 
+###################
+# GOOD ONE
+####################
 
 @bp.route('/customer_inventory', methods=['GET', 'POST'])
 def customer_inventory():
@@ -50,9 +53,69 @@ def customer_inventory():
 
     else:
         query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
-        item = query[0]
+        #item = query[0]
         count = len(query)
         return render_template('customer_inventory.html', form=form, results=query, count=count)
+
+
+
+
+###################
+# BAD ONE
+####### ##############
+
+
+@bp.route('/bad_customer_inventory', methods=['GET', 'POST'])
+def inventory():
+    form = BadCustomerInventoryForm()
+    query = []
+
+    if form.validate_on_submit():
+        if form.radio.data == 'ID':
+            id = form.ID.data
+            # Adjusting the SQL query to prevent duplication
+            query = db.session.execute(
+                text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+                     f"FROM Inventory as i "
+                     f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
+                     f"WHERE i.Item_id = '{id}'")
+            ).fetchall()
+
+        elif form.radio.data == 'Name':
+            name = form.Name.data
+            # Adjusting the SQL query to prevent duplication
+            query = db.session.execute(
+                text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+                     f"FROM Inventory as i "
+                     f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
+                     f"WHERE i.Item_name = '{name}'")
+            ).fetchall()
+
+        elif form.radio.data == 'Price':
+            price = form.Price.data
+            # Adjusting the SQL query to prevent duplication
+            query = db.session.execute(
+                text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+                     f"FROM Inventory as i "
+                     f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
+                     f"WHERE i.Price = '{price}'")
+            ).fetchall()
+
+    results = query
+    count = len(results)
+
+    return render_template('bad_customer_inventory.html', form=form, results=results, count=count)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
