@@ -77,8 +77,9 @@ class EmployeeInventoryForm(FlaskForm):
     Name = StringField('Item Name')
     Vendor = StringField('Vendor ID')
     Quantity = StringField('Quantity')
+    Price = StringField('Price')
     radio = RadioField('Search By',
-                            choices=[('ID', 'Item ID'), ('Name', 'Item Name'), ('Vendor', 'Vendor ID')],
+                            choices=[('ID', 'Item ID'), ('Name', 'Item Name'), ('Vendor', 'Vendor ID'), ('Price', 'Price')],
                             default='ID')
     Operation = SelectField('Operation', choices=[('add', 'Add Item'), ('update', 'Update Item'), ('delete', 'Delete Item'), ('search', 'Search')])
     submit = SubmitField('Submit')

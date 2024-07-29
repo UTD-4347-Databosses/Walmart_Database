@@ -11,20 +11,23 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Item ID</th>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Vendor ID</th>
+            <th>Item ID </th>
+            <th>Item Name </th>
+            <th>Quantity </th>
+            <th>Vendor ID </th>
+            <th>Price </th>
         </tr>
         </thead>
         <tbody>
-        {% for item in inventory %}
+        {% for Item in inventory %}
         <tr>
-            <td>{{ item.Item_id }}</td>
-            <td>{{ item.Item_name }}</td>
-            <td>{{ item.Quantity }}</td>
-            <td>{{ item.Vendor_id }}</td>
-            {% endfor %}
+            <td>{{ Item.Item_id }}</td>
+            <td>{{ Item.Item_name }}</td>
+            <td>{{ Item.Quantity }}</td>
+            <td>{{ Item.Vendor_id }}</td>
+            <td>{{ Item.Price }}</td>
+        <tr>
+        {% endfor %}
         </tbody>
     </table>
     {% elif count == 0 %}

@@ -70,6 +70,7 @@ inventory_table = Table(
     Column("Vendor_id", Integer, ForeignKey('Vendor.Vendor_id'), primary_key=True),
     Column("Quantity", Integer),
     Column("Item_name", String(255)),
+    Column("Price", DECIMAL(10, 2)),
     UniqueConstraint("Item_id", "Vendor_id", name="Inventory_pk")
     )
 

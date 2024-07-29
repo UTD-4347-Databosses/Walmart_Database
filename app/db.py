@@ -13,6 +13,7 @@ db = SQLAlchemy()
 map = Map()
 
 
+
 def init_db(app):
 	try:
 		# Configure the SQLAlchemy part of the app instance

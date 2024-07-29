@@ -21,17 +21,17 @@
     </tr>
     </thead>
     <tbody>
-    {% for employee in results %}
-    <tr>
-      <td>{{ employee.Employee_id }}</td>
-      <td>{{ employee.Fname }}</td>
-      <td>{{ employee.Lname }}</td>
-      <td>{{ employee.Start_date }}</td>
-      <td>{{ employee.Position_name }}</td>
-        <td>{{ employee.Salary }}</td>
-        <td>{{ employee.Hourly_wage }}</td>
-    </tr>
-      {% endfor %}
+    {% for employee, position_type in results %}
+<tr>
+    <td>{{ employee.Employee_id }}</td>
+    <td>{{ employee.Fname }}</td>
+    <td>{{ employee.Lname }}</td>
+    <td>{{ employee.Start_date }}</td>
+    <td>{{ employee.Position_name }}</td>
+    <td>{{ position_type.Salary }}</td>
+    <td>{{ position_type.Hourly_wage }}</td>
+</tr>
+{% endfor %}
     </tbody>
   </table>
   {% elif count == 0 %}

@@ -6,6 +6,8 @@ from app.db import *
 from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
 from app.db import map
 
+
+
 bp = Blueprint('main', __name__)
 
 
@@ -139,19 +141,19 @@ def employee_view():
 
         elif form.Operation.data == "search":
             if form.radio.data == 'Fname':
-                query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Fname == form.Fname.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Employee.Fname == form.Fname.data).all()
             elif form.radio.data == 'Lname':
-                query = db.session.query(map.classes.Employee).filter( map.classes.Employee.Lname == form.Lname.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Employee.Lname == form.Lname.data).all()
             elif form.radio.data == 'ID':
-                query = db.session.query(map.classes.Employee).filter( map.classes.Employee.Employee_id == form.ID.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Employee.Employee_id == form.ID.data).all()
             elif form.radio.data == 'Date':
-                query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Start_date == form.Date.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Employee.Start_date == form.Date.data).all()
             elif form.radio.data == 'Position':
-                query = db.session.query(map.classes.Employee).filter(map.classes.Employee.Position_name == form.Position.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Employee.Position_name == form.Position.data).all()
             elif form.radio.data == 'Salary':
-                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.PositionType.Salary == form.Salary.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Position_type.Salary == form.Salary.data).all()
             elif form.radio.data == 'Hourly':
-                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.PositionType.Hourly_wage == form.Hourly.data).all()
+                query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).filter(map.classes.Positionn_type.Hourly_wage == form.Hourly.data).all()
             count = len(query)
             return render_template('employee_view.html', form=form, results=query, count=count)
 
@@ -184,12 +186,9 @@ def employee_view():
         return render_template('employee_view.html', form=form, results=query, count=count)
     else:
         query = db.session.query(map.classes.Employee, map.classes.Position_type).join(map.classes.Position_type).all()
-        first_employee = query[0]
-        #print(first_employee)
-
         count = len(query)
         return render_template('employee_view.html', form=form, results=query, count=count)
-    # return render_template('employee_view.html', form=form, column_names=map.tables.Employee.columns.keys())
+
 
 
 
@@ -213,7 +212,8 @@ def employee_inventory():
                 Item_id=form.ID.data,
                 Item_name=form.Name.data,
                 Quantity=form.Quantity.data,
-                Vendor_id=form.Vendor.data
+                Vendor_id=form.Vendor.data,
+                Price = form.Price.data
             )
             db.session.add(new_inventory)
             db.session.commit()
@@ -234,6 +234,10 @@ def employee_inventory():
             elif form.radio.data == 'Vendor':
                 query = db.session.query(map.classes.Inventory).filter(
                     map.classes.Inventory.Vendor_id == form.Vendor.data).all()
+            elif form.radio.data == 'Price':
+                query = db.session.query(map.classes.Inventory).filter(
+                map.classes.Inventory.Price == form.Price.data).all()
+
             count = len(query)
             return render_template('employee_inventory.html', form=form, inventory=query, count=count)
 
@@ -246,6 +250,7 @@ def employee_inventory():
                 inventory_item.Item_name = form.Name.data
                 inventory_item.Quantity = form.Quantity.data
                 inventory_item.Vendor_id = form.Vendor.data
+                inventory_item.Price = form.Price.data
                 db.session.commit()
                 flash('Inventory item updated successfully!', 'success')
             else:
@@ -271,9 +276,10 @@ def employee_inventory():
 
     else:
         query = db.session.query(map.classes.Inventory).all()
+        item = query[0]
         count = len(query)
         return render_template('employee_inventory.html', form=form, inventory=query, count=count)
-    # return render_template('employee_inventory.html', form=form)
+
 
 
 @bp.route('/employee_customers', methods=['GET', 'POST'])
