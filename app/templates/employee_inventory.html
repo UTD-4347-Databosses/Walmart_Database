@@ -7,7 +7,7 @@
 <div>
     {{ render_form(form) }}
 
-    {% if inventory and count > 0 %}
+    {% if results and count > 0 %}
     <table class="table">
         <thead>
         <tr>
@@ -15,17 +15,19 @@
             <th>Item Name </th>
             <th>Quantity </th>
             <th>Vendor ID </th>
+            <th>Vendor Name </th>
             <th>Price </th>
         </tr>
         </thead>
         <tbody>
-        {% for Item in inventory %}
+        {% for item, vendor in results %}
         <tr>
-            <td>{{ Item.Item_id }}</td>
-            <td>{{ Item.Item_name }}</td>
-            <td>{{ Item.Quantity }}</td>
-            <td>{{ Item.Vendor_id }}</td>
-            <td>{{ Item.Price }}</td>
+            <td>{{ item.Item_id }}</td>
+            <td>{{ item.Item_name }}</td>
+            <td>{{ item.Quantity }}</td>
+            <td>{{ item.Vendor_id }}</td>
+            <td>{{ vendor.Vendor_name }}</td>
+            <td>{{ item.Price }}</td>
         <tr>
         {% endfor %}
         </tbody>

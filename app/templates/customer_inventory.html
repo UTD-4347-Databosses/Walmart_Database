@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<h1>Inventory</h1>
+<h1>item</h1>
 <div>
     {{ render_form(form) }}
 
@@ -11,22 +11,25 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Item ID</th>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Vendor ID</th>
-            <th>Price</th>
+            <th>Item ID </th>
+            <th>Item Name </th>
+            <th>Quantity </th>
+            <th>Vendor ID </th>
+            <th>Vendor Name </th>
+            <th>Price </th>
         </tr>
         </thead>
         <tbody>
-        {% for item in results %}
+        {% for item, vendor in results %}
         <tr>
             <td>{{ item.Item_id }}</td>
             <td>{{ item.Item_name }}</td>
             <td>{{ item.Quantity }}</td>
             <td>{{ item.Vendor_id }}</td>
+            <td>{{ vendor.Vendor_name }}</td>
             <td>{{ item.Price }}</td>
-            {% endfor %}
+        <tr>
+        {% endfor %}
         </tbody>
     </table>
     {% elif count == 0 %}

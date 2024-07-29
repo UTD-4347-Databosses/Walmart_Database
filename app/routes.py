@@ -38,19 +38,19 @@ def customer_inventory():
 
         if form.Operation.data == "search":
             if form.radio.data == 'ID':
-                query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_id   == form.ID.data).all()
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(map.classes.Inventory.Item_id == form.ID.data).all()
             elif form.radio.data == 'Name':
-                query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_name  == form.Name.data).all()
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(map.classes.Inventory.Item_name  == form.Name.data).all()
             elif form.radio.data == 'Price':
-                query = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Price == form.Price.data).all()
-
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(map.classes.Inventory.Price == form.Price.data).all()
 
             count = len(query)
             return render_template('customer_inventory.html', form=form, results=query, count=count)
 
 
     else:
-        query = db.session.query(map.classes.Inventory).all()
+        query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
+        item = query[0]
         count = len(query)
         return render_template('customer_inventory.html', form=form, results=query, count=count)
 
@@ -220,31 +220,31 @@ def employee_inventory():
             flash('Inventory item added successfully!', 'success')
 
             count = len(query)
-            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+            return render_template('employee_inventory.html', form=form, results=query, count=count)
 
 
 
         elif form.Operation.data == "search":
             if form.radio.data == 'ID':
-                query = db.session.query(map.classes.Inventory).filter(
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                     map.classes.Inventory.Item_id == form.ID.data).all()
             elif form.radio.data == 'Name':
-                query = db.session.query(map.classes.Inventory).filter(
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                     map.classes.Inventory.Item_name == form.Name.data).all()
             elif form.radio.data == 'Vendor':
-                query = db.session.query(map.classes.Inventory).filter(
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                     map.classes.Inventory.Vendor_id == form.Vendor.data).all()
             elif form.radio.data == 'Price':
-                query = db.session.query(map.classes.Inventory).filter(
+                query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                 map.classes.Inventory.Price == form.Price.data).all()
 
             count = len(query)
-            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+            return render_template('employee_inventory.html', form=form, results=query, count=count)
 
 
 
         elif form.Operation.data == "update":
-            inventory_item = db.session.query(map.classes.Inventory).filter(
+            inventory_item = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                 map.classes.Inventory.Item_id == form.ID.data).first()
             if inventory_item:
                 inventory_item.Item_name = form.Name.data
@@ -257,13 +257,12 @@ def employee_inventory():
                 flash('Inventory item not found!', 'danger')
 
             count = len(query)
-            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+            return render_template('employee_inventory.html', form=form, resutls=query, count=count)
 
 
 
         elif form.Operation.data == "delete":
-            inventory_item = db.session.query(map.classes.Inventory).filter(
-                map.classes.Inventory.Item_id == form.ID.data).first()
+            inventory_item = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(map.classes.Inventory.Item_id == form.ID.data).first()
             if inventory_item:
                 db.session.delete(inventory_item)
                 db.session.commit()
@@ -272,13 +271,12 @@ def employee_inventory():
                 flash('Inventory item not found!', 'danger!')
 
             count = len(query)
-            return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+            return render_template('employee_inventory.html', form=form, results=query, count=count)
 
     else:
-        query = db.session.query(map.classes.Inventory).all()
-        item = query[0]
+        query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
         count = len(query)
-        return render_template('employee_inventory.html', form=form, inventory=query, count=count)
+        return render_template('employee_inventory.html', form=form, results=query, count=count)
 
 
 
