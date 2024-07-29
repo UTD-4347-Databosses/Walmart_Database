@@ -6,9 +6,13 @@ from app.db import *
 from app.InputForms import EmployeeCustomerForm, EmployeeViewForm, EmployeeInventoryForm, SettingsForm
 from app.db import map
 from sqlalchemy import text
+import mysql.connector
+
+
 
 
 bp = Blueprint('main', __name__)
+
 
 
 @bp.route('/')
@@ -65,8 +69,6 @@ def customer_inventory():
 ###################
 # BAD ONE
 ####### ##############
-
-
 @bp.route('/bad_customer_inventory', methods=['GET', 'POST'])
 def bad_inventory():
     form = BadCustomerInventoryForm()
@@ -113,23 +115,46 @@ def bad_inventory():
 
 
 
-        # use
-        # 1'; --
+        # use in "name" feild
+        #     '; DROP TABLE Inventory; --
 
         elif form.Operation.data == 'Update':
 
-            id = form.ID.data
 
-            db.session.execute(
-                text(f"UPDATE i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
-                     f"FROM Inventory as i "
-                     f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
-                     f"WHERE i.Item_id = '{id}'")
-            ).commit()
+            # Establish a database connection (replace placeholders with your actual credentials)
+            connection = mysql.connector.connect(
+                host="databoss-database.czk2mm6e60xo.us-east-1.rds.amazonaws.com",
+                user="databoss",
+                password="PASSWORD",
+                database="Walmart"
+            )
+
+            id = form.ID.data
+            name = form.Name.data
+            vendor_id = form.Vendor.data
+            quantity = form.Quantity.data
+            price = form.Price.data
+
+            # Secure update statement using parameterized queries
+            vulnerable_update_statement = f"""
+                UPDATE Inventory
+                SET Item_name = '{name}',
+                Vendor_id = {vendor_id},
+                Quantity = {quantity},
+                Price = {price} 
+                WHERE Item_id = {id}
+                """
+
+            cursor = connection.cursor()
+            cursor.execute(vulnerable_update_statement)
+            connection.commit()
+            cursor.close()
+            connection.close()
 
             query = db.session.execute(text("SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price FROM Inventory as i JOIN Vendor as v ON i.Vendor_id = v.Vendor_id ")).fetchall()
+            item = query[0]
             count = len(query)
-            return render_template('bad_customer_inventory.html', form=form, resutls=query, count=count)
+            return render_template('bad_customer_inventory.html', form=form, results=query, count=count)
 
     else:
         query = db.session.execute(text("SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price FROM Inventory as i JOIN Vendor as v ON i.Vendor_id = v.Vendor_id ")).fetchall()
