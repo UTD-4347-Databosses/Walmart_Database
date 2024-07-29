@@ -28,11 +28,14 @@ class CustomerInventoryForm(FlaskForm):
 class BadCustomerInventoryForm(FlaskForm):
     ID = StringField('Item ID')
     Name = StringField('Item Name')
+    Vendor = StringField('Vendor ID')
+    Quantity = StringField('Quantity')
     Price = StringField('Price')
     radio = RadioField('Search By',
-                       choices=[('ID', 'Item ID'), ('Name', 'Item Name'), ('Price', 'Price')],
-                       default='ID')
-    Operation = SelectField('Operation', choices=[('search', 'Search')])
+                            choices=[('ID', 'Item ID'), ('Name', 'Item Name'), ('Vendor', 'Vendor ID'), ('Price', 'Price')],
+                            default='ID')
+    Operation = SelectField('Operation', choices=[('Update', 'Update Item') , ('Search', 'Search')])
+
     submit = SubmitField('Submit')
 
 
@@ -49,6 +52,10 @@ class CustomerTransactionForm(FlaskForm):
                        default='TransactionID')
     Operation = SelectField('Operation', choices=[('search', 'Search')])
     submit = SubmitField('Submit')
+
+
+
+
 
 
 

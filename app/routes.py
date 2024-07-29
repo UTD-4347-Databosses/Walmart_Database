@@ -37,6 +37,8 @@ def customer():
 def customer_inventory():
     query = []  # Reset query to ensure previous search is cleared after every search
     form = CustomerInventoryForm()
+
+
     if form.validate_on_submit():
 
         if form.Operation.data == "search":
@@ -66,45 +68,76 @@ def customer_inventory():
 
 
 @bp.route('/bad_customer_inventory', methods=['GET', 'POST'])
-def inventory():
+def bad_inventory():
     form = BadCustomerInventoryForm()
     query = []
 
     if form.validate_on_submit():
-        if form.radio.data == 'ID':
+
+        # use
+        # 1' OR '1'='1
+        if form.Operation.data == 'Search':
+
+            if form.radio.data == 'ID':
+                id = form.ID.data
+                # Adjusting the SQL query to prevent duplication
+                query = db.session.execute(
+                    text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+                         f"FROM Inventory as i "
+                         f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
+                         f"WHERE i.Item_id = '{id}'")
+                ).fetchall()
+
+            elif form.radio.data == 'Name':
+                name = form.Name.data
+                # Adjusting the SQL query to prevent duplication
+                query = db.session.execute(
+                    text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+                         f"FROM Inventory as i "
+                         f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
+                         f"WHERE i.Item_name = '{name}'")
+                ).fetchall()
+
+            elif form.radio.data == 'Price':
+                price = form.Price.data
+                # Adjusting the SQL query to prevent duplication
+                query = db.session.execute(
+                    text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+                         f"FROM Inventory as i "
+                         f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
+                         f"WHERE i.Price = '{price}'")
+                ).fetchall()
+
+            count = len(query)
+            return render_template('bad_customer_inventory.html', form=form, results=query, count=count)
+
+
+
+        # use
+        # 1'; --
+
+        elif form.Operation.data == 'Update':
+
             id = form.ID.data
-            # Adjusting the SQL query to prevent duplication
-            query = db.session.execute(
-                text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
+
+            db.session.execute(
+                text(f"UPDATE i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
                      f"FROM Inventory as i "
                      f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
                      f"WHERE i.Item_id = '{id}'")
-            ).fetchall()
+            ).commit()
 
-        elif form.radio.data == 'Name':
-            name = form.Name.data
-            # Adjusting the SQL query to prevent duplication
-            query = db.session.execute(
-                text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
-                     f"FROM Inventory as i "
-                     f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
-                     f"WHERE i.Item_name = '{name}'")
-            ).fetchall()
+            query = db.session.execute(text("SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price FROM Inventory as i JOIN Vendor as v ON i.Vendor_id = v.Vendor_id ")).fetchall()
+            count = len(query)
+            return render_template('bad_customer_inventory.html', form=form, resutls=query, count=count)
 
-        elif form.radio.data == 'Price':
-            price = form.Price.data
-            # Adjusting the SQL query to prevent duplication
-            query = db.session.execute(
-                text(f"SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price "
-                     f"FROM Inventory as i "
-                     f"JOIN Vendor as v ON i.Vendor_id = v.Vendor_id "
-                     f"WHERE i.Price = '{price}'")
-            ).fetchall()
+    else:
+        query = db.session.execute(text("SELECT DISTINCT i.Item_id, i.Item_name, i.Quantity, v.Vendor_id, v.Vendor_name, i.Price FROM Inventory as i JOIN Vendor as v ON i.Vendor_id = v.Vendor_id ")).fetchall()
+        item = query[0]
+        count = len(query)
+        return render_template('bad_customer_inventory.html', form=form, results=query, count=count)
 
-    results = query
-    count = len(results)
 
-    return render_template('bad_customer_inventory.html', form=form, results=results, count=count)
 
 
 
@@ -145,6 +178,13 @@ def customer_transactions():
         query = db.session.query(map.classes.Transaction).all()
         count = len(query)
         return render_template('customer_transactions.html', form=form, results=query, count=count)
+
+
+
+
+
+
+
 
 
 
