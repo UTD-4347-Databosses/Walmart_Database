@@ -91,7 +91,7 @@ OTHER SECTION ******************************************************************
 '''
 class SettingsForm(FlaskForm):
     role = RadioField('Role',
-                      choices=[('customer', 'Customer'), ('employee', 'Employee'), ('vendor', 'Vendor')],
+                      choices=[('customer', 'Customer'), ('employee', 'Employee')],
                       default='customer')
     submit = SubmitField('Submit')
 
