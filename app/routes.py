@@ -123,9 +123,9 @@ def bad_inventory():
 
             # Establish a database connection (replace placeholders with your actual credentials)
             connection = mysql.connector.connect(
-                host="databoss-database.czk2mm6e60xo.us-east-1.rds.amazonaws.com",
+                host="database-databoss-instance-1.czk2mm6e60xo.us-east-1.rds.amazonaws.com",
                 user="databoss",
-                password="##F72BKom&JzO4cj",
+                password="pasword",
                 database="Walmart"
             )
 
@@ -139,10 +139,10 @@ def bad_inventory():
             vulnerable_update_statement = f"""
                 UPDATE Inventory
                 SET Item_name = '{name}',
-                Vendor_id = {vendor_id},
-                Quantity = {quantity},
-                Price = {price} 
-                WHERE Item_id = {id}
+                Vendor_id = '{vendor_id}',
+                Quantity = '{quantity}',
+                Price = '{price}' 
+                WHERE Item_id = '{id}';
                 """
 
             cursor = connection.cursor()
