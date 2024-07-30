@@ -76,7 +76,7 @@ def bad_inventory():
 
     if form.validate_on_submit():
 
-        # use
+        # use in id fieild
         # 1' OR '1'='1
         if form.Operation.data == 'Search':
 
@@ -125,7 +125,7 @@ def bad_inventory():
             connection = mysql.connector.connect(
                 host="databoss-database.czk2mm6e60xo.us-east-1.rds.amazonaws.com",
                 user="databoss",
-                password="PASSWORD",
+                password="##F72BKom&JzO4cj",
                 database="Walmart"
             )
 
@@ -347,6 +347,7 @@ def employee_inventory():
             db.session.commit()
             flash('Inventory item added successfully!', 'success')
 
+            query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
             count = len(query)
             return render_template('employee_inventory.html', form=form, results=query, count=count)
 
@@ -366,6 +367,7 @@ def employee_inventory():
                 query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                 map.classes.Inventory.Price == form.Price.data).all()
 
+            query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
             count = len(query)
             return render_template('employee_inventory.html', form=form, results=query, count=count)
 
@@ -384,6 +386,7 @@ def employee_inventory():
             else:
                 flash('Inventory item not found!', 'danger')
 
+            query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
             count = len(query)
             return render_template('employee_inventory.html', form=form, resutls=query, count=count)
 
@@ -398,6 +401,7 @@ def employee_inventory():
             else:
                 flash('Inventory item not found!', 'danger!')
 
+            query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
             count = len(query)
             return render_template('employee_inventory.html', form=form, results=query, count=count)
 
@@ -405,6 +409,14 @@ def employee_inventory():
         query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
         count = len(query)
         return render_template('employee_inventory.html', form=form, results=query, count=count)
+
+
+
+
+
+
+
+
 
 
 
@@ -433,6 +445,11 @@ def employee_customers():
             db.session.commit()
             flash('Customer info added successfully!', 'success')
 
+            query = db.session.query(map.classes.Cutomer).all()
+            count = len(query)
+            return render_template('employee_customers.html', form=form, results=query, count=count)
+
+
 
         elif form.Operation.data == "search":
             if form.radio.data == 'ID':
@@ -444,6 +461,10 @@ def employee_customers():
             elif form.radio.data == 'LName':
                 query = db.session.query(map.classes.Customer).filter(
                     map.classes.Customer.Lname == form.Lname.data).all()
+            count = len(query)
+            return render_template('employee_customers.html', form=form, results=query, count=count)
+
+            query = db.session.query(map.classes.Cutomer).all()
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
 
@@ -466,6 +487,11 @@ def employee_customers():
             else:
                 flash('Customer information not found!', 'danger')
 
+            query = db.session.query(map.classes.Cutomer).all()
+            count = len(query)
+            return render_template('employee_customers.html', form=form, results=query, count=count)
+
+
 
 
         elif form.Operation.data == "delete":
@@ -478,7 +504,9 @@ def employee_customers():
             else:
                 flash('Inventory item not found!', 'danger!')
 
-        return redirect(url_for('main.employee_customers'))
+            query = db.session.query(map.classes.Cutomer).all()
+            count = len(query)
+            return render_template('employee_customers.html', form=form, results=query, count=count)
 
 
     else:
