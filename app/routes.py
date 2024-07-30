@@ -445,7 +445,7 @@ def employee_customers():
             db.session.commit()
             flash('Customer info added successfully!', 'success')
 
-            query = db.session.query(map.classes.Cutomer).all()
+            query = db.session.query(map.classes.Customer).all()
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
 
@@ -464,7 +464,7 @@ def employee_customers():
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
 
-            query = db.session.query(map.classes.Cutomer).all()
+            query = db.session.query(map.classes.Customer).all()
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
 
@@ -487,7 +487,7 @@ def employee_customers():
             else:
                 flash('Customer information not found!', 'danger')
 
-            query = db.session.query(map.classes.Cutomer).all()
+            query = db.session.query(map.classes.Customer).all()
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
 
@@ -504,7 +504,7 @@ def employee_customers():
             else:
                 flash('Inventory item not found!', 'danger!')
 
-            query = db.session.query(map.classes.Cutomer).all()
+            query = db.session.query(map.classes.Customer).all()
             count = len(query)
             return render_template('employee_customers.html', form=form, results=query, count=count)
 
