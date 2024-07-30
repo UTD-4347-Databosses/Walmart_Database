@@ -125,7 +125,7 @@ def bad_inventory():
             connection = mysql.connector.connect(
                 host="database-databoss-instance-1.czk2mm6e60xo.us-east-1.rds.amazonaws.com",
                 user="databoss",
-                password="pasword",
+                password="4w5nExHXO#9!Xe4K",
                 database="Walmart"
             )
 
@@ -139,10 +139,10 @@ def bad_inventory():
             vulnerable_update_statement = f"""
                 UPDATE Inventory
                 SET Item_name = '{name}',
-                Vendor_id = '{vendor_id}',
-                Quantity = '{quantity}',
-                Price = '{price}' 
-                WHERE Item_id = '{id}';
+                Vendor_id = {vendor_id},
+                Quantity = {quantity},
+                Price = {price} 
+                WHERE Item_id = {id};
                 """
 
             cursor = connection.cursor()
@@ -367,14 +367,14 @@ def employee_inventory():
                 query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
                 map.classes.Inventory.Price == form.Price.data).all()
 
-            query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
+            #query = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).all()
             count = len(query)
             return render_template('employee_inventory.html', form=form, results=query, count=count)
 
 
 
         elif form.Operation.data == "update":
-            inventory_item = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(
+            inventory_item = db.session.query(map.classes.Inventory).filter(
                 map.classes.Inventory.Item_id == form.ID.data).first()
             if inventory_item:
                 inventory_item.Item_name = form.Name.data
@@ -393,7 +393,7 @@ def employee_inventory():
 
 
         elif form.Operation.data == "delete":
-            inventory_item = db.session.query(map.classes.Inventory, map.classes.Vendor).join(map.classes.Vendor).filter(map.classes.Inventory.Item_id == form.ID.data).first()
+            inventory_item = db.session.query(map.classes.Inventory).filter(map.classes.Inventory.Item_id == form.ID.data).first()
             if inventory_item:
                 db.session.delete(inventory_item)
                 db.session.commit()
