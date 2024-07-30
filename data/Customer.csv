@@ -1,0 +1,6 @@
+Customer_id,Fname,Lname,Email,Phone_num,Street_address,City,State
+1,Alice,Walker,alice@example.com,123-456-7890,321 Maple St,Springfield,IL
+2,Bob,Johnson,bob@example.com,234-567-8901,654 Birch St,Springfield,IL
+3,Carol,Martinez,carol@example.com,345-678-9012,987 Cedar St,Shelbyville,IL
+4,David,Lee,david@example.com,456-789-0123,654 Elm St,Ogdenville,IL
+5,Eve,Lopez,eve@example.com,567-890-1234,321 Oak St,Springfield,IL

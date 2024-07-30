@@ -1,16 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h1>This is the inventory page</h1>
+<h1>This is the employee homepage</h1>
 <div>
-    <label for="search_name">Search by item name:</label>
-    <input type="search" id="search_name" name="search_name">
-    <input type="submit" value="Search">
+    <a href="/employee_inventory">View Inventory</a>
 </div>
 <div>
-    <label for="search_id">Search by item id:</label>
-    <input type="search" id="search_id" name="search_id">
-    <input type="submit" value="Search">
+    <a href="/employee_view">View Employees</a>
+</div>
+<div>
+    <a href="/employee_customers">Search Customers</a>
 </div>
 <a href='/'>Back to home</a>
 {% endblock %}

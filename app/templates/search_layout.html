@@ -56,9 +56,56 @@
             max-width: 100%;
             height: auto;
         }
+        .search-container {
+            display: flex;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .search-container select,
+        .search-container input[type="text"] {
+            height: 40px;
+            border: none;
+            padding: 0 10px;
+            font-size: 1em;
+        }
+        .search-container select {
+            border-radius: 5px 0 0 5px;
+            background-color: white;
+            color: #0074D9;
+        }
+        .search-container input[type="text"] {
+            flex: 1;
+            border-left: none;
+            border-right: none;
+        }
+        .search-container button {
+            height: 40px;
+            border: none;
+            background-color: #FF4136;
+            color: white;
+            font-size: 1em;
+            padding: 0 20px;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+        }
+        .search-container button:hover {
+            background-color: #FF5733;
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="search-container">
+            <select>
+                {% for column_name in column_names %}
+                <option value=f"{{column_name}}">{{column_name}}</option>
+                {% endfor %}
+                <!-- Add more options as needed -->
+            </select>
+            <input type="text" placeholder="Search...">
+            <button type="submit">Search</button>
+        </div>
+    </div>
     {% block content %}{% endblock %}
 </body>
 </html>

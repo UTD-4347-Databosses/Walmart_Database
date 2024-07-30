@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+
+{% block content %}
+<h1>Customer Transaction History</h1>
+
+<div>
+    {{ render_form(form) }}
+
+    {% if results and count > 0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Employee ID</th>
+            <th>Location ID</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in results %}
+        <tr>
+            <td>{{ transaction.Transaction_id }}</td>
+            <td>{{ transaction.Employee_id  }}</td>
+            <td>{{ transaction.Location_id  }}</td>
+            <td>{{ transaction.Transaction_amount  }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif count == 0 %}
+    <p>No transactions found</p>
+    {% endif %}
+</div>
+<a href='/customer'>Back</a>
+{% endblock %}
